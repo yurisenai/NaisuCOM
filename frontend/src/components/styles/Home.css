@@ -1,0 +1,52 @@
+/* Home.css */
+/* Home.css */
+:root {
+  --main-bg-color: #f5f5f5;
+  --header-bg-color: #333;
+  --header-text-color: white;
+  --primary-color: purple;
+}
+
+
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--main-bg-color);
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column; /* Stacks children vertically */
+  align-items: stretch; /* Stretches children to fit the container width */
+}
+
+.header-image-container {
+  width: 100%; /* Ensures the container takes the full width */
+  text-align: center; /* Centers the text inside the container */
+  position: relative; /* Sets positioning context for absolute positioning of the title */
+}
+
+.header-image {
+  width: 100%; /* Image takes full width of its container */
+  display: block; /* Removes any space below the image */
+  height: auto; /* Maintains aspect ratio */
+}
+
+.header-image-container h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--header-text-color);
+  z-index: 10; /* Ensures the text appears above the image */
+  width: 100%;
+  text-align: center;
+}
+
+.header-image h1 {
+  margin: 0;
+}
+
+

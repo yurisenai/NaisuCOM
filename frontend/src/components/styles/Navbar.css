@@ -1,0 +1,32 @@
+/* Navbar.css */
+.full-width-menu {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    border-radius: 0 !important;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navbar-left, .navbar-center, .navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-center {
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.navbar-right {
+  justify-content: flex-end;
+    padding-right: 3em !important;
+}
+.navbar-left {
+    justify-content: flex-end;
+    padding-left: 3em !important;
+}
+
