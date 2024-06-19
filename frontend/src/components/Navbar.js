@@ -1,28 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, Image, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import './styles/Navbar.css'; // Assuming this is where your CSS is
+import './styles/Navbar.css';
 import logo from './assets/logo-large.png';
-import axios from 'axios'; // Ensure axios is imported
+import useSendRequest from '../hooks/useSendRequest';
 
-
-const Navbar = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Replace this URL with your actual endpoint
-    axios.get('/api/user')
-      .then(response => {
-        setUser(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
-      });
-  }, []);
-
+const Navbar = ({ isLoggedIn , user}) => {
+  const { sendRequest, response, error, loading } = useSendRequest();
 
   return (
-    <Menu className="full-width-menu" >
+    <Menu className="full-width-menu">
       <div className="navbar">
         <div className="navbar-left">
           <Menu.Item as={Link} to='/' header>
@@ -39,14 +26,10 @@ const Navbar = () => {
           <Menu.Item as={Link} to='/search'>
             <Icon name='search' />
           </Menu.Item>
-            {user && user.name ? (
+          {isLoggedIn  && user ? (
             <Menu.Item as={Link} to='/profile'>
-              {user.profilePicture ? (
-                <Image avatar src={user.profilePicture} />
-              ) : (
-                <Icon name='user' />
-              )}
-              {user.name}
+              <Icon name='user' />
+              {user.username}
             </Menu.Item>
           ) : (
             <Menu.Item as={Link} to='/login'>
@@ -64,4 +47,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

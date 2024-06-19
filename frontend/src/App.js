@@ -1,5 +1,4 @@
-// App.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -10,36 +9,58 @@ import UserProfile from './components/UserProfile';
 import UserSettings from './components/UserSettings';
 import About from './components/About';
 import Contact from './components/Contact';
+import useSendRequest from './hooks/useSendRequest'
 
-// A component to handle routes and show/hide the Navbar based on the current route
-const RoutesWithNavbar = () => {
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState('');
+  const { sendRequest, response, error, loading } = useSendRequest();
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      await sendRequest('/check-login/', 'POST');
+    };
+
+    checkLogin();
+  }, [sendRequest]);
+
+  useEffect(() => {
+    if (response) {
+      setIsLoggedIn(response.isLoggedIn ===true);
+      setUser(response.user);
+    }
+  }, [response]);
+
+  return (
+    <Router>
+      <RoutesWithNavbar isLoggedIn={isLoggedIn} user={user} />
+      <Routes>
+        <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
+
+      </Routes>
+    </Router>
+  );
+};
+
+const RoutesWithNavbar = ({ isLoggedIn , user}) => {
   const location = useLocation();
   const showNavbar = !['/login', '/register'].includes(location.pathname);
 
   return (
     <div>
-      {showNavbar && <Navbar />}
+      {showNavbar && <Navbar isLoggedIn={isLoggedIn} user={user} />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/settings" element={<UserSettings />} />
+          <Route path="/profile" element={<UserProfile  isLoggedIn={isLoggedIn} user={user}/>} />
+          <Route path="/settings" element={<UserSettings  user={user} />} />
         </Route>
       </Routes>
     </div>
-  );
-};
-
-const App = () => {
-  return (
-    <Router>
-      <RoutesWithNavbar />
-    </Router>
   );
 };
 

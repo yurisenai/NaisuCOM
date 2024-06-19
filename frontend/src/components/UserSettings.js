@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import useSendRequest from '../hooks/useSendRequest';
 
-const UserSettings = () => {
+const UserSettings = ({user}) => {
+const { sendRequest, response, error, loading } = useSendRequest();
+
     const [userData, setUserData] = useState({
         id: '',
+        username:'',
         date_of_birth: '',
         profile_picture: '',
         bio: '',
@@ -13,17 +17,19 @@ const UserSettings = () => {
     });
 
     useEffect(() => {
-        fetchUserData();
-    }, []);
+        if (user && user.id) {
+            fetchUserData();
+        }
+    }, [user]);
+
+    useEffect(() => {
+        if (response) {
+            setUserData(response);
+        }
+    }, [response]);
 
     const fetchUserData = async () => {
-        try {
-            const response = await fetch('/api/users/1/'); // Replace '1' with the appropriate user ID
-            const data = await response.json();
-            setUserData(data);
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-        }
+        await sendRequest(`/users/${user.id}/`, 'GET');
     };
 
     const handleChange = (e) => {
@@ -31,25 +37,15 @@ const UserSettings = () => {
         setUserData({ ...userData, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch(`/api/users/${userData.id}/`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userData),
-            });
-            if (response.ok) {
-                alert('Profile updated successfully!');
-            } else {
-                alert('Error updating profile.');
-            }
-        } catch (error) {
-            console.error('Error updating profile:', error);
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await sendRequest(`/users/${userData.id}/`, 'POST', userData);
+    if (response) {
+      alert('Profile updated successfully!');
+    } else if (error) {
+      alert('Error updating profile.');
+    }
+  };
 
     return (
         <div>
@@ -63,6 +59,16 @@ const UserSettings = () => {
                         value={userData.id}
                         onChange={handleChange}
                         readOnly
+                    />
+                </div>
+                 <div>
+                    <label>Username:</label>
+                    <input
+                        type="text"
+                        name="username"
+                        value={userData.username}
+                        onChange={handleChange}
+
                     />
                 </div>
                 <div>

@@ -1,29 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { Button, Form, Grid, Header, Segment, Message } from 'semantic-ui-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './styles/Register.css'; // Reuse the same CSS file for consistency
+import useSendRequest from '../hooks/useSendRequest';
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const { sendRequest, response, error, loading } = useSendRequest();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:8000/api/login/', { username, password });
-      localStorage.setItem('token', response.data.token);
+    await sendRequest('/login/', 'POST', { username, password });
+  };
+
+  useEffect(() => {
+    if (response) {
+      Cookies.set("token", response["token"], { expires: 7 }); // 7 days
       setSuccess('Login Successful');
       setTimeout(() => {
         navigate('/');
-      }, 1000); // Redirect after 1 second
-    } catch (err) {
-      setError('Login Failed. Try again.');
+      }, 1000);
     }
-  };
+  }, [response, navigate]);
 
   return (
     <div className='container'>
