@@ -1,0 +1,46 @@
+.about-container {
+  text-align: left;
+  padding-right: 20em;
+  padding-left: 20em;
+  padding-top: 3em;
+  padding-bottom: 5em;
+}
+
+
+
+.card-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding-left: 5em;
+  padding-right: 5em;
+}
+
+.card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 25vw;
+  margin: 1em;
+  padding: 2em;
+  text-align: left;
+}
+
+.card-image img {
+  width: 100%;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+h2 {
+  font-size: 1.2em;
+  margin: 10px 0;
+}

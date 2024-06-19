@@ -1,0 +1,49 @@
+.contact-container {
+  text-align: left;
+  padding-right: 20em;
+  padding-left: 20em;
+  padding-top: 3em;
+  padding-bottom: 5em;
+}
+
+form {
+  padding-top: 5em;
+  max-width: 60em;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
