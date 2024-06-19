@@ -3,11 +3,8 @@ import { Menu, Image, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './styles/Navbar.css';
 import logo from './assets/logo-large.png';
-import useSendRequest from '../hooks/useSendRequest';
 
 const Navbar = ({ isLoggedIn , user}) => {
-  const { sendRequest, response, error, loading } = useSendRequest();
-
   return (
     <Menu className="full-width-menu">
       <div className="navbar">

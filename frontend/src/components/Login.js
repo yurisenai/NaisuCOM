@@ -6,7 +6,7 @@ import './styles/Register.css'; // Reuse the same CSS file for consistency
 import useSendRequest from '../hooks/useSendRequest';
 import Cookies from "js-cookie";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [success, setSuccess] = useState('');
@@ -22,6 +22,9 @@ const Login = () => {
     if (response) {
       Cookies.set("token", response["token"], { expires: 7 }); // 7 days
       setSuccess('Login Successful');
+       if (onLogin) {
+        onLogin(response);
+      }
       setTimeout(() => {
         navigate('/');
       }, 1000);

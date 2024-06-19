@@ -35,8 +35,7 @@ const App = () => {
     <Router>
       <RoutesWithNavbar isLoggedIn={isLoggedIn} user={user} />
       <Routes>
-        <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
-
+        <Route path="/login" element={<Login onLogin={(user) => {setUser(user);setIsLoggedIn(true)}} />} />
       </Routes>
     </Router>
   );
@@ -55,7 +54,7 @@ const RoutesWithNavbar = ({ isLoggedIn , user}) => {
         <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
-        <Route element={<ProtectedRoute />}>
+        <Route element={<ProtectedRoute  isLoggedIn={isLoggedIn} />}>
           <Route path="/profile" element={<UserProfile  isLoggedIn={isLoggedIn} user={user}/>} />
           <Route path="/settings" element={<UserSettings  user={user} />} />
         </Route>
